@@ -21,7 +21,7 @@ public class BoardDAO {
 		
 		try {
 			conn = DBManager.getConnection();
-			String sql = "select * from board";
+			String sql = "select * from board order by bidx desc";
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
 			
@@ -42,7 +42,7 @@ public class BoardDAO {
 		
 	}
 	
-	public BoardVO view(String bidx) {
+	public BoardVO selectOne(String bidx) {
 		BoardVO vo = new BoardVO();
 		
 		//DB¿¬°á
@@ -74,7 +74,7 @@ public class BoardDAO {
 		return vo;
 	}
 	
-	public int modify(String bidx, String title, String content) {
+	public int update(BoardVO vo) {
 		
 		int result = 0;
 		
@@ -83,11 +83,14 @@ public class BoardDAO {
 		
 		try {
 			conn = DBManager.getConnection();
-			String sql = "update board set bsubject=?, bcontent=? where bidx=? ";
+			String sql = "update board set "
+					   + " bsubject=? "
+					   + ", bcontent=? "
+					   + " where bidx=? ";
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, title);
-			psmt.setString(2, content);
-			psmt.setString(3, bidx);
+			psmt.setString(1, vo.getTitle());
+			psmt.setString(2, vo.getContent());
+			psmt.setInt(3, vo.getBidx());
 			result = psmt.executeUpdate();
 			
 		}catch(Exception e) {
@@ -99,6 +102,53 @@ public class BoardDAO {
 		return result;
 	}
 	
+	public int insert(BoardVO vo) {
+		
+		int result = 0;
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		
+		try {
+			conn = DBManager.getConnection();
+			String sql = "insert into board( "
+					   + " bidx, bsubject, bwriter, bcontent, midx "
+					   + " ) values("
+					   + " bidx_seq.nextval, ?, ?, ?, 3 "
+					   + " )";
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getTitle());
+			psmt.setString(2, vo.getWriter());
+			psmt.setString(3, vo.getContent());
+			result = psmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(psmt, conn);
+		}
+		
+		return result;
+	}
 	
+	public void delete(String bidx) {
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		
+		try {
+			conn = DBManager.getConnection();
+			String sql = "delete from board where bidx = ? ";
+					   
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, bidx);
+			psmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(psmt, conn);
+		}
+	}
 	
 }

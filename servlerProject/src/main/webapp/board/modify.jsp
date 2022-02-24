@@ -12,7 +12,7 @@
 </head>
 <body>
 	<h2>게시글 수정</h2>
-	<form name="modifyFrm" action="modifyOk.do">
+	<form name="modifyFrm" action="modify.do" method="post">
 		<input type="hidden" name="bidx" value="<%=vo.getBidx() %>">
 		<table border="1">
 			<tr>
@@ -38,7 +38,7 @@
 		</table>
 		<br>
 		<input type="submit" value="저장">
-		<input type="button" value="취소" onclick="location.href='view.do'">
+		<input type="button" value="취소" onclick="location.href='view.do?bidx=<%=vo.getBidx()%>'">
 	</form>
 </body>
 </html>

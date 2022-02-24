@@ -9,6 +9,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+	function delFn(){
+		var form = document.getElementsByTagName("form")[0];
+		form.setAttribute("action","delete.do");
+		form.submit();
+	}
+</script>
 </head>
 <body>
 	<h2>상세페이지</h2>
@@ -36,5 +43,10 @@
 	</table>
 	<br>
 	<button onclick="location.href='modify.do?bidx=<%=vo.getBidx() %>'">수정</button>
+	<input type="button" value="목록" onclick="location.href='board.do'">
+	<input type="button" value="삭제" onclick="delFn()">
+	<form name="delFrm" method="post">
+		<input type="hidden" name="bidx" value="<%=vo.getBidx()%>">
+	</form>
 </body>
 </html>

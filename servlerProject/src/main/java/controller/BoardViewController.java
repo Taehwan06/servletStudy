@@ -36,7 +36,7 @@ public class BoardViewController extends HttpServlet {
 		
 		String bidx = request.getParameter("bidx");
 		BoardDAO boardDAO = new BoardDAO();
-		BoardVO vo = boardDAO.view(bidx);
+		BoardVO vo = boardDAO.selectOne(bidx);
 		request.setAttribute("vo", vo);
 		RequestDispatcher rd = request.getRequestDispatcher("/board/view.jsp");
 		rd.forward(request, response);

@@ -37,5 +37,6 @@
 			}%>
 		</tbody>
 	</table>
+	<button onclick="location.href='insert.do'">등록</button>
 </body>
 </html>
